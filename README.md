@@ -130,6 +130,7 @@ Distributed under the Apache 2.0 License. See [license][license-url] for more de
 
 ## Acknowledgements
 
+- [npmlock2nix][npmlock2nix-url]
 - [nixpkgs-fmt][nixpkgs-fmt-url]
 - [direnv][direnv-url]
 - [niv][niv-url]
@@ -154,6 +155,7 @@ Distributed under the Apache 2.0 License. See [license][license-url] for more de
 
 
 <!--Other external links -->
+[npmlock2nix-url]: https://github.com/nix-community/npmlock2nix
 [niv-url]: https://github.com/nmattia/niv
 [overlay-link]: https://nixos.org/manual/nixpkgs/stable/#chap-overlays
 [api-url]: ./API.md
