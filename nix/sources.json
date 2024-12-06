@@ -4,11 +4,11 @@
         "description": "Seamless integration of https://pre-commit.com git hooks with Nix.",
         "homepage": "",
         "owner": "cachix",
-        "repo": "pre-commit-hooks.nix",
-        "rev": "1303a1a76e9eb074075bfe566518c413f6fc104e",
-        "sha256": "0nhp1bym29hlcxic7x7jqgqsq60bqzfxd5zbylpsafmdnam1dfrk",
+        "repo": "git-hooks.nix",
+        "rev": "3308484d1a443fc5bc92012435d79e80458fe43c",
+        "sha256":"0qdhcqisil8zhnf600y0vpa1mayrca8z2bja79p4j5vajy7dnx4s",
         "type": "tarball",
-        "url": "https://github.com/cachix/pre-commit-hooks.nix/archive/1303a1a76e9eb074075bfe566518c413f6fc104e.tar.gz",
+        "url": "https://github.com/cachix/git-hooks.nix/archive/3308484d1a443fc5bc92012435d79e80458fe43c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
@@ -17,10 +17,10 @@
         "homepage": "",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c5ed8beb478a8ca035f033f659b60c89500a3034",
-        "sha256": "0i4dxvnz7myn90kfqv8l5nvsk1k6lgmhg1xfags2h5bazyb0rr4c",
+        "rev": "fa42b5a5f401aab8a32bd33c9a4de0738180dc59",
+        "sha256": "16jsp12npz4hsk1m5zjv98gg692xh1qwyv97iy5plldl2gaqhdj7",
         "type": "tarball",
-        "url": "https://github.com/nixos/nixpkgs/archive/c5ed8beb478a8ca035f033f659b60c89500a3034.tar.gz",
+        "url": "https://github.com/nixos/nixpkgs/archive/fa42b5a5f401aab8a32bd33c9a4de0738180dc59.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "smoke": {
@@ -29,10 +29,10 @@
         "homepage": "",
         "owner": "SamirTalwar",
         "repo": "smoke",
-        "rev": "61bb7c05bbbaa80df516adfcc60240889ed43fd1",
-        "sha256": "1axg8cm18w41f4s7ph8qyarrdzazph87b1sb149hbxkpf2ckhahx",
+        "rev": "c2424c6d03445b6eb38f33c1f4eb6e71e7656a02",
+        "sha256": "1nsr322iw6v23s0y82nkx5ky5nczjjhc6cswy38c6m0mfg03k5dx",
         "type": "tarball",
-        "url": "https://github.com/SamirTalwar/smoke/archive/61bb7c05bbbaa80df516adfcc60240889ed43fd1.tar.gz",
+        "url": "https://github.com/SamirTalwar/smoke/archive/c2424c6d03445b6eb38f33c1f4eb6e71e7656a02.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
