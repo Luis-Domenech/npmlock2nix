@@ -108,7 +108,7 @@ npmlock2nix.v1.node_modules {
 }
 ```
 
-Please refer to [github-dependency](https://github.com/nix-community/npmlock2nix/blob/master/tests/tests-v2/examples-projects/github-dependency) for a fully working example.
+Please refer to [github-dependency](https://github.com/Luis-Domenech/npmlock2nix/blob/main/tests/tests-v2/examples-projects/github-dependency) for a fully working example.
 
 ### preInstallLinks
 
@@ -129,7 +129,7 @@ npmlock2nix.v1.node_modules {
 }
 ```
 
-Please refer to [bin-wrapped-dep](https://github.com/tweag/npmlock2nix/blob/master/tests/examples-projects/bin-wrapped-dep/shell.nix) for a fully working example.
+Please refer to [bin-wrapped-dep](https://github.com/Luis-Domenech/npmlock2nix/blob/main/tests/tests-v1/examples-projects/bin-wrapped-dep/shell.nix) for a fully working example.
 
 
 ### node_modules_mode

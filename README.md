@@ -5,7 +5,6 @@
 [![Issues][issues-shield]][issues-url]
 [![PRs][pr-shield]][pr-url]
 [![Tests][test-shield]][test-url]
-[![Matrix][matrix-shield]][matrix-url]
 
 <!-- teaser -->
 <br />
@@ -41,7 +40,7 @@ Since `npmlock2nix` is written entirely in Nix, there aren't any additional prer
 The preferred way to provide _npmlock2nix_ to your project is via [niv][niv-url]:
 
 ```shell
-$ niv add nix-community/npmlock2nix
+$ niv add Luis-Domenech/npmlock2nix
 ```
 
 Assuming you are also tracking nixpkgs via niv, you can then provide _npmlock2nix_ to your project as a [nixpkgs overlay][overlay-link]
@@ -144,16 +143,14 @@ Distributed under the Apache 2.0 License. See [license][license-url] for more de
 
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/Tweag/npmlock2nix.svg?style=for-the-badge
-[issues-url]: https://github.com/Tweag/npmlock2nix/issues
-[license-shield]: https://img.shields.io/github/license/Tweag/npmlock2nix.svg?style=for-the-badge
-[license-url]: https://github.com/Tweag/npmlock2nix/blob/master/LICENSE
-[test-shield]: https://img.shields.io/github/workflow/status/Tweag/npmlock2nix/Tests/master?style=for-the-badge
-[test-url]: https://github.com/Tweag/npmlock2nix/actions
-[pr-shield]: https://img.shields.io/github/issues-pr/Tweag/npmlock2nix.svg?style=for-the-badge
-[pr-url]: https://github.com/Tweag/npmlock2nix/pulls
-[matrix-shield]: https://img.shields.io/matrix/npmlock2nix:nixos.dev.svg?server_fqdn=matrix.nixos.dev&style=for-the-badge
-[matrix-url]: https://matrix.to/#/#npmlock2nix:nixos.dev
+[issues-shield]: https://img.shields.io/github/issues/Luis-Domenech/npmlock2nix.svg?style=for-the-badge
+[issues-url]: https://github.com/Luis-Domenech/npmlock2nix/issues
+[license-shield]: https://img.shields.io/github/license/Luis-Domenech/npmlock2nix.svg?style=for-the-badge
+[license-url]: https://github.com/Luis-Domenech/npmlock2nix/blob/main/LICENSE
+[test-shield]: https://img.shields.io/github/workflow/status/Luis-Domenech/npmlock2nix/Tests/main?style=for-the-badge
+[test-url]: https://github.com/Luis-Domenech/npmlock2nix/actions
+[pr-shield]: https://img.shields.io/github/issues-pr/Luis-Domenech/npmlock2nix.svg?style=for-the-badge
+[pr-url]: https://github.com/Luis-Domenech/npmlock2nix/pulls
 
 
 <!--Other external links -->
