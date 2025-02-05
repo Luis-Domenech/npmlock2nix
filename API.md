@@ -45,6 +45,7 @@ If you forget to specify a `v1`/`v2` prefix, a warning containing some migration
 ### node_modules
 
 The `node_modules` function parses `package.json` and `package-lock.json` and generates a derivation containing a populated `node_modules` folder equivalent to the result of running `npm install`.
+
 #### Arguments
 The `node_modules` function takes an attribute set with the following attributes:
 
@@ -108,7 +109,7 @@ npmlock2nix.v1.node_modules {
 }
 ```
 
-Please refer to [github-dependency](https://github.com/Luis-Domenech/npmlock2nix/blob/main/tests/tests-v2/examples-projects/github-dependency) for a fully working example.
+Please refer to [github-dependency](./tests/tests-v2/examples-projects/github-dependency/default.nix) for a fully working example.
 
 ### preInstallLinks
 
@@ -129,7 +130,7 @@ npmlock2nix.v1.node_modules {
 }
 ```
 
-Please refer to [bin-wrapped-dep](https://github.com/Luis-Domenech/npmlock2nix/blob/main/tests/tests-v1/examples-projects/bin-wrapped-dep/shell.nix) for a fully working example.
+Please refer to [bin-wrapped-dep](./tests/tests-v1/examples-projects/bin-wrapped-dep/shell.nix) for a fully working example.
 
 
 ### node_modules_mode
