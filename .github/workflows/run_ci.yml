@@ -21,7 +21,7 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
           enable_kvm: true
           extra_nix_config: "system-features = nixos-test benchmark big-parallel kvm" # Useful for NixOS tests
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: DeterminateSystems/flakehub-cache-action@main
       - uses: extractions/setup-just@v2
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
