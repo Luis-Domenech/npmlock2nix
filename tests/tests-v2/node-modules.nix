@@ -1,4 +1,11 @@
-{ npmlock2nix, testLib, runCommand, nodejs-16_x, nodejs-17_x, python3 }:
+{
+  npmlock2nix,
+  default-nodejs,
+  alternate-nodejs,
+  testLib,
+  runCommand,
+  python3,
+}:
 testLib.runTests {
   testNodeModulesForEmptyDependencies = {
     expr =
@@ -60,29 +67,32 @@ testLib.runTests {
           src = ./examples-projects/single-dependency;
         };
       in
-      builtins.pathExists (runCommand "test-leftpad"
-        {
-          buildInputs = [ nodejs-17_x ];
-        } ''
-        ln -s ${drv}/node_modules node_modules
-        node -e "require('leftpad')"
-        touch $out
-      ''
+      builtins.pathExists (
+        runCommand "test-leftpad"
+          {
+            buildInputs = [ default-nodejs ];
+          }
+          ''
+            ln -s ${drv}/node_modules node_modules
+            node -e "require('leftpad')"
+            touch $out
+          ''
       );
     expected = true;
   };
 
   testNodeModulesAcceptsCustomNodejs = {
-    expr = (npmlock2nix.v2.node_modules {
-      src = ./examples-projects/no-dependencies;
-      nodejs = {
-        pname = "our-custom-nodejs-package";
-        version = "17.12.34";
-      };
-    }).nodejs;
+    expr =
+      (npmlock2nix.v2.node_modules {
+        src = ./examples-projects/no-dependencies;
+        nodejs = {
+          pname = "our-custom-nodejs-package";
+          version = alternate-nodejs.version;
+        };
+      }).nodejs;
     expected = {
       pname = "our-custom-nodejs-package";
-      version = "17.12.34";
+      version = alternate-nodejs.version;
     };
   };
 
@@ -90,12 +100,12 @@ testLib.runTests {
     let
       drv = npmlock2nix.v2.node_modules {
         src = ./examples-projects/no-dependencies;
-        nodejs = nodejs-16_x;
+        nodejs = alternate-nodejs;
       };
     in
     {
       expr = drv.propagatedBuildInputs;
-      expected = [ nodejs-16_x ];
+      expected = [ alternate-nodejs ];
     };
 
   testHonorsPrePostBuildHook =
@@ -112,10 +122,10 @@ testLib.runTests {
       };
     in
     {
-      expr = builtins.readFile (runCommand "concat"
-        { } ''
-        cat ${drv + "/node_modules/preBuild-test"} ${drv + "/node_modules/postBuild-test"} > $out
-      ''
+      expr = builtins.readFile (
+        runCommand "concat" { } ''
+          cat ${drv + "/node_modules/preBuild-test"} ${drv + "/node_modules/postBuild-test"} > $out
+        ''
       );
       expected = "preBuildpostBuild";
     };
@@ -136,18 +146,20 @@ testLib.runTests {
     };
 
   testPassesExtraParameters = {
-    expr = (npmlock2nix.v2.node_modules {
-      src = ./examples-projects/single-dependency;
-      SOME_EXTRA_PARAMETER = "123";
-    }).SOME_EXTRA_PARAMETER or "attribute missing";
+    expr =
+      (npmlock2nix.v2.node_modules {
+        src = ./examples-projects/single-dependency;
+        SOME_EXTRA_PARAMETER = "123";
+      }).SOME_EXTRA_PARAMETER or "attribute missing";
     expected = "123";
   };
 
   testHonorsPassedPassthru = {
-    expr = (npmlock2nix.v2.node_modules {
-      src = ./examples-projects/single-dependency;
-      passthru.test-param = 123;
-    }).passthru.test-param;
+    expr =
+      (npmlock2nix.v2.node_modules {
+        src = ./examples-projects/single-dependency;
+        passthru.test-param = 123;
+      }).passthru.test-param;
     expected = 123;
   };
 

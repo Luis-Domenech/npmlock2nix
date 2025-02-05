@@ -1,4 +1,14 @@
-{ npmlock2nix, testLib, nodejs-16_x, callPackage, libwebp, runCommandNoCC, python3 }:
+{
+  npmlock2nix,
+  default-nodejs,
+  alternate-nodejs,
+  lib,
+  testLib,
+  callPackage,
+  libwebp,
+  runCommandNoCC,
+  python3,
+}:
 testLib.makeIntegrationTests {
   leftpad = {
     description = "Require a node dependency inside the shell environment";
@@ -10,11 +20,13 @@ testLib.makeIntegrationTests {
   };
   nodejsVersion = {
     description = "Specify nodejs version to use";
-    shell = import ../examples-projects/nodejs-version-shell/shell.nix { };
+    shell = import ../examples-projects/nodejs-version-shell/shell.nix {
+      inherit npmlock2nix default-nodejs alternate-nodejs;
+    };
     command = ''
       node -e 'console.log(process.versions.node.split(".")[0]);'
     '';
-    expected = "10\n";
+    expected = "${lib.versions.major default-nodejs.version}\n";
   };
   pathContainsNodeApplications = {
     description = "Applications from the node_modules/.bin folder should be available on $PATH in the shell expression";
@@ -95,7 +107,6 @@ testLib.makeIntegrationTests {
       status = 0;
       expected = "";
     };
-
 
   copyNodeModulesDoesNotOverrideExistingNodeModules =
     let
@@ -223,7 +234,9 @@ testLib.makeIntegrationTests {
       We expect the path returned by nodejs to be a symlink to the actual store path.
     '';
 
-    shell = callPackage ../examples-projects/bin-wrapped-dep/shell.nix { };
+    shell = callPackage ../examples-projects/bin-wrapped-dep/shell.nix {
+      inherit npmlock2nix;
+    };
     command = ''
       readlink -f $(node -e 'console.log(require("cwebp-bin"))')
     '';
@@ -238,7 +251,9 @@ testLib.makeIntegrationTests {
       packages sometimes use `@` or `/` in package names which has to be sanitized
       to avoid nix errors with invalid store paths.
     '';
-    shell = callPackage ../examples-projects/unsanitized-package-name/shell.nix { };
+    shell = callPackage ../examples-projects/unsanitized-package-name/shell.nix {
+      inherit npmlock2nix;
+    };
     command = ''
       node -e 'console.log("works")'
     '';
@@ -249,7 +264,9 @@ testLib.makeIntegrationTests {
 
   source-patching = {
     description = "Source patching works";
-    shell = callPackage ../examples-projects/source-patching/shell.nix { };
+    shell = callPackage ../examples-projects/source-patching/shell.nix {
+      inherit npmlock2nix;
+    };
     command = ''
       node -e 'console.log(require("custom-hello-world")({}));'
     '';

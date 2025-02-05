@@ -1,4 +1,10 @@
-{ npmlock2nix, testLib, symlinkJoin, runCommand, nodejs-17_x, lib }:
+{
+  npmlock2nix,
+  alternate-nodejs,
+  testLib,
+  symlinkJoin,
+  lib,
+}:
 let
   v2 = npmlock2nix.v2;
 in
@@ -9,8 +15,8 @@ testLib.runTests {
     let
       custom_nodejs = symlinkJoin {
         name = "custom-nodejs";
-        paths = [ nodejs-17_x ];
-        version = "17.8.3";
+        paths = [ alternate-nodejs ];
+        version = alternate-nodejs.version;
         src = "/foo";
       };
       drv = v2.shell {
@@ -24,7 +30,10 @@ testLib.runTests {
         node_modules_nodejs = drv.node_modules.nodejs;
       };
       expected = {
-        buildInputs = [ custom_nodejs drv.node_modules ];
+        buildInputs = [
+          custom_nodejs
+          drv.node_modules
+        ];
         node_modules_nodejs = custom_nodejs;
       };
     };

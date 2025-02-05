@@ -1,8 +1,14 @@
-{ lib, symlinkJoin, npmlock2nix, runCommand, libwebp, python3 }:
+{
+  lib,
+  npmlock2nix,
+  runCommand,
+  libwebp,
+  python3,
+}:
 let
-  symlinkAttrs = attrs: runCommand "symlink-attrs"
-    { }
-    (
+  symlinkAttrs =
+    attrs:
+    runCommand "symlink-attrs" { } (
       let
         drvs = lib.attrValues (lib.mapAttrs (name: drv: { inherit name drv; }) attrs);
       in

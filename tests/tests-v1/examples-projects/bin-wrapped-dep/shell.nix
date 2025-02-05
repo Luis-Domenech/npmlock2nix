@@ -1,4 +1,8 @@
-{ npmlock2nix, libwebp, python3 }:
+{
+  npmlock2nix,
+  libwebp,
+  python3,
+}:
 npmlock2nix.v1.shell {
   src = ./.;
   node_modules_attrs = {

@@ -1,4 +1,4 @@
-{ lib, npmlock2nix, testLib }:
+{ npmlock2nix, testLib }:
 let
   i = npmlock2nix.v2.internal;
 

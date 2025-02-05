@@ -1,4 +1,8 @@
-{ lib, npmlock2nix, testLib }:
+{
+  lib,
+  npmlock2nix,
+  testLib,
+}:
 let
   inherit (testLib) noSourceOptions;
   i = npmlock2nix.v2.internal;

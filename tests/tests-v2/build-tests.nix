@@ -1,8 +1,14 @@
-{ lib, symlinkJoin, npmlock2nix, runCommand, libwebp, python3 }:
+{
+  lib,
+  npmlock2nix,
+  runCommand,
+  libwebp,
+  python3,
+}:
 let
-  symlinkAttrs = attrs: runCommand "symlink-attrs"
-    { }
-    (
+  symlinkAttrs =
+    attrs:
+    runCommand "symlink-attrs" { } (
       let
         drvs = lib.attrValues (lib.mapAttrs (name: drv: { inherit name drv; }) attrs);
       in
@@ -47,12 +53,14 @@ symlinkAttrs {
 
     node_modules_attrs = {
       sourceOverrides = {
-        cwebp-bin = sourceInfo: drv: drv.overrideAttrs (old: {
-          postPatch = ''
-            mkdir -p vendor
-            ln -sf "${libwebp}/bin/cwebp" vendor/cwebp
-          '';
-        });
+        cwebp-bin =
+          sourceInfo: drv:
+          drv.overrideAttrs (old: {
+            postPatch = ''
+              mkdir -p vendor
+              ln -sf "${libwebp}/bin/cwebp" vendor/cwebp
+            '';
+          });
       };
     };
   };

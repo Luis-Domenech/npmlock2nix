@@ -1,6 +1,6 @@
-{ pkgs ? import ../../../nix { } }:
+{ npmlock2nix }:
 
-pkgs.npmlock2nix.v1.node_modules {
+npmlock2nix.v1.node_modules {
   src = ./.;
   packageJson = ./package.json;
   packageLockJson = ./package-lock.json;

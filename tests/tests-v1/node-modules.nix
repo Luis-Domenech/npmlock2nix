@@ -1,4 +1,24 @@
-{ npmlock2nix, testLib, runCommand, nodejs, python3 }:
+{
+  pkgs,
+  npmlock2nix,
+  default-nodejs,
+  alternate-nodejs,
+  testLib,
+  runCommand,
+}:
+let
+
+  # Python 3.11 onwards causes node-pre-gyp to fail, which is used by bcrypt, in old NodeJS versions
+  python =
+    if pkgs ? python310 then
+      pkgs.python310
+    else
+      assert
+        pkgs.lib.versionAtLeast pkgs.python3.version "3.11.0"
+        -> throw "The default python (v${pkgs.python3.version}) at `pkgs.python3` has a version greater than `3.10.XX` and the current shell's nixpkgs does not have the `python310` package, which has python at version `3.10.XX`. Python `3.11.XX` onwards causes `node-pre-gyp` to fail, which is used by bcrypt, when running the native extensions tests.";
+      pkgs.python3;
+
+in
 testLib.runTests {
   testNodeModulesForEmptyDependencies = {
     expr =
@@ -60,29 +80,32 @@ testLib.runTests {
           src = ./examples-projects/single-dependency;
         };
       in
-      builtins.pathExists (runCommand "test-leftpad"
-        {
-          buildInputs = [ nodejs ];
-        } ''
-        ln -s ${drv}/node_modules node_modules
-        node -e "require('leftpad')"
-        touch $out
-      ''
+      builtins.pathExists (
+        runCommand "test-leftpad"
+          {
+            buildInputs = [ default-nodejs ];
+          }
+          ''
+            ln -s ${drv}/node_modules node_modules
+            node -e "require('leftpad')"
+            touch $out
+          ''
       );
     expected = true;
   };
 
   testNodeModulesAcceptsCustomNodejs = {
-    expr = (npmlock2nix.v1.node_modules {
-      src = ./examples-projects/no-dependencies;
-      nodejs = {
-        pname = "our-custom-nodejs-package";
-        version = "14.12.34";
-      };
-    }).nodejs;
+    expr =
+      (npmlock2nix.v1.node_modules {
+        src = ./examples-projects/no-dependencies;
+        nodejs = {
+          pname = "our-custom-nodejs-package";
+          version = alternate-nodejs.version;
+        };
+      }).nodejs;
     expected = {
       pname = "our-custom-nodejs-package";
-      version = "14.12.34";
+      version = alternate-nodejs.version;
     };
   };
 
@@ -90,12 +113,12 @@ testLib.runTests {
     let
       drv = npmlock2nix.v1.node_modules {
         src = ./examples-projects/no-dependencies;
-        nodejs = nodejs;
+        nodejs = alternate-nodejs;
       };
     in
     {
       expr = drv.propagatedBuildInputs;
-      expected = [ nodejs ];
+      expected = [ alternate-nodejs ];
     };
 
   testHonorsPrePostBuildHook =
@@ -112,10 +135,10 @@ testLib.runTests {
       };
     in
     {
-      expr = builtins.readFile (runCommand "concat"
-        { } ''
-        cat ${drv + "/node_modules/preBuild-test"} ${drv + "/node_modules/postBuild-test"} > $out
-      ''
+      expr = builtins.readFile (
+        runCommand "concat" { } ''
+          cat ${drv + "/node_modules/preBuild-test"} ${drv + "/node_modules/postBuild-test"} > $out
+        ''
       );
       expected = "preBuildpostBuild";
     };
@@ -124,7 +147,7 @@ testLib.runTests {
     let
       drv = npmlock2nix.v1.node_modules {
         src = ./examples-projects/native-extensions;
-        buildInputs = [ python3 ];
+        buildInputs = [ python ];
       };
     in
     {
@@ -133,18 +156,20 @@ testLib.runTests {
     };
 
   testPassesExtraParameters = {
-    expr = (npmlock2nix.v1.node_modules {
-      src = ./examples-projects/single-dependency;
-      SOME_EXTRA_PARAMETER = "123";
-    }).SOME_EXTRA_PARAMETER or "attribute missing";
+    expr =
+      (npmlock2nix.v1.node_modules {
+        src = ./examples-projects/single-dependency;
+        SOME_EXTRA_PARAMETER = "123";
+      }).SOME_EXTRA_PARAMETER or "attribute missing";
     expected = "123";
   };
 
   testHonorsPassedPassthru = {
-    expr = (npmlock2nix.v1.node_modules {
-      src = ./examples-projects/single-dependency;
-      passthru.test-param = 123;
-    }).passthru.test-param;
+    expr =
+      (npmlock2nix.v1.node_modules {
+        src = ./examples-projects/single-dependency;
+        passthru.test-param = 123;
+      }).passthru.test-param;
     expected = 123;
   };
 

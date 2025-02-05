@@ -1,4 +1,8 @@
-{ npmlock2nix, testLib, lib }:
+{
+  npmlock2nix,
+  testLib,
+  lib,
+}:
 let
   inherit (testLib) noSourceOptions;
   name = "utils.logger";

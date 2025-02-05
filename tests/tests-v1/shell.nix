@@ -1,4 +1,10 @@
-{ npmlock2nix, testLib, symlinkJoin, runCommand, nodejs, lib }:
+{
+  npmlock2nix,
+  alternate-nodejs,
+  testLib,
+  symlinkJoin,
+  lib,
+}:
 testLib.runTests {
   # test that the shell expression uses the same (given) nodejs package for
   # both the shell and node_modules
@@ -6,7 +12,7 @@ testLib.runTests {
     let
       custom_nodejs = symlinkJoin {
         name = "custom-nodejs";
-        paths = [ nodejs ];
+        paths = [ alternate-nodejs ];
         version = "12.8.3";
         src = "/foo";
       };
@@ -21,7 +27,10 @@ testLib.runTests {
         node_modules_nodejs = drv.node_modules.nodejs;
       };
       expected = {
-        buildInputs = [ custom_nodejs drv.node_modules ];
+        buildInputs = [
+          custom_nodejs
+          drv.node_modules
+        ];
         node_modules_nodejs = custom_nodejs;
       };
     };
