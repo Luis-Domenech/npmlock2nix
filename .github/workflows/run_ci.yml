@@ -1,0 +1,36 @@
+name: "Run CI Pipeline"
+on:
+  pull_request:
+    branches: main
+  push:
+    branches: main
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: cachix/install-nix-action@v30
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.26.1/install
+          nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/55d15ad12a74eb7d4646254e13638ad0c4128776.tar.gz
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          enable_kvm: true
+          extra_nix_config: "system-features = nixos-test benchmark big-parallel kvm" # Useful for NixOS tests
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: extractions/setup-just@v2
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Run Linter
+        run: just run-ci-lint
+      
+      - name: Run CI Tests
+        run: just run-ci-tests
+      
+      - name: Run CI Checks
+        run: just run-ci-checks
